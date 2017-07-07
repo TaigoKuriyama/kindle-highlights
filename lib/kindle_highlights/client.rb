@@ -1,4 +1,3 @@
-require 'pry-rails'
 module KindleHighlights
   class Client
     claAss CaptchaError < StandardError; end
@@ -49,7 +48,6 @@ module KindleHighlights
         post_signin_page       = mechanize_agent.submit(signin_form)
         submit_button = signin_form.buttons.find { |b| b.value == "Continue" }
         post_signin_page = mechanize_agent.submit signin_form, submit_button
-        binding.pry
         if post_signin_page.search("#ap_captcha_img").any?
           resolution_url = post_signin_page.link_with(text: /See a new challenge/).resolved_uri.to_s
           raise CaptchaError, "Received a CAPTCHA while attempting to sign in to your Amazon account. You will need to resolve this manually at #{resolution_url}"
